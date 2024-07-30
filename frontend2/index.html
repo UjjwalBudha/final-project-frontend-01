@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product CRUD App</title>
+  <script src="config.js"></script>
+</head>
+<body>
+  <h1>Product CRUD App</h1>
+  <div>
+    <input type="text" id="productTitle" placeholder="Product Title">
+    <input type="text" id="productDescription" placeholder="Product Description">
+    <input type="number" id="productPrice" placeholder="Product Price">
+    <input type="number" id="availableQuantity" placeholder="Available Quantity">
+    <input type="text" id="productThumbnail" placeholder="Product Thumbnail">
+    <button onclick="createProduct()">Create</button>
+  </div>
+  <ul id="productList"></ul>
+
+  <script>
+    // The apiUrl variable is now available from config.js
+
+    async function fetchProducts() {
+      try {
+        const response = await fetch(apiUrl);
+        if (!response.ok) throw new Error('Network response was not ok');
+        const products = await response.json();
+        const productList = document.getElementById('productList');
+        productList.innerHTML = '';
+        products.data.forEach(product => {
+          const li = document.createElement('li');
+          li.textContent = `${product.productTitle} - ${product.productDescription} - $${product.productPrice} - ${product.availableQuantity} units - ${product.productThumbnail}`;
+          li.innerHTML += ` <button onclick="deleteProduct(${product.productId})">Delete</button>`;
+          li.innerHTML += ` <button onclick="updateProduct(${product.productId}, '${product.productTitle}', '${product.productDescription}', ${product.productPrice}, ${product.availableQuantity}, '${product.productThumbnail}')">Update</button>`;
+          productList.appendChild(li);
+        });
+      } catch (error) {
+        console.error('Fetch error:', error);
+      }
+    }
+
+    async function createProduct() {
+      const productTitle = document.getElementById('productTitle').value;
+      const productDescription = document.getElementById('productDescription').value;
+      const productPrice = document.getElementById('productPrice').value;
+      const availableQuantity = document.getElementById('availableQuantity').value;
+      const productThumbnail = document.getElementById('productThumbnail').value;
+
+      try {
+        const response = await fetch(apiUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ productTitle, productDescription, productPrice, availableQuantity, productThumbnail })
+        });
+        if (!response.ok) throw new Error('Network response was not ok');
+        fetchProducts();
+      } catch (error) {
+        console.error('Create product error:', error);
+      }
+    }
+
+    async function deleteProduct(id) {
+      try {
+        const response = await fetch(`${apiUrl}/${id}`, {
+          method: 'DELETE'
+        });
+        if (!response.ok) throw new Error('Network response was not ok');
+        fetchProducts();
+      } catch (error) {
+        console.error('Delete product error:', error);
+      }
+    }
+
+    async function updateProduct(id, currentTitle, currentDescription, currentPrice, currentQuantity, currentThumbnail) {
+      const productTitle = prompt('Enter new title', currentTitle);
+      const productDescription = prompt('Enter new description', currentDescription);
+      const productPrice = prompt('Enter new price', currentPrice);
+      const availableQuantity = prompt('Enter new quantity', currentQuantity);
+      const productThumbnail = prompt('Enter new thumbnail', currentThumbnail);
+
+      if (productTitle && productDescription && productPrice && availableQuantity && productThumbnail) {
+        try {
+          const response = await fetch(`${apiUrl}/${id}`, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ productTitle, productDescription, productPrice, availableQuantity, productThumbnail })
+          });
+          if (!response.ok) throw new Error('Network response was not ok');
+          fetchProducts();
+        } catch (error) {
+          console.error('Update product error:', error);
+        }
+      }
+    }
+
+    fetchProducts();
+  </script>
+</body>
+</html>
