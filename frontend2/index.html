@@ -4,10 +4,82 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Product CRUD App</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    h1 {
+      color: #333;
+    }
+    .form-container {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      width: 300px;
+      margin-bottom: 20px;
+    }
+    .form-container input {
+      width: calc(100% - 22px);
+      padding: 10px;
+      margin: 5px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .form-container button {
+      width: 100%;
+      padding: 10px;
+      background-color: #28a745;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .form-container button:hover {
+      background-color: #218838;
+    }
+    #productList {
+      list-style-type: none;
+      padding: 0;
+      width: 100%;
+      max-width: 600px;
+    }
+    #productList li {
+      background: #fff;
+      margin: 10px 0;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    #productList li button {
+      margin-left: 10px;
+      padding: 5px 10px;
+      background-color: #dc3545;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    #productList li button.update {
+      background-color: #ffc107;
+    }
+    #productList li button:hover {
+      opacity: 0.8;
+    }
+  </style>
 </head>
 <body>
   <h1>Product CRUD App</h1>
-  <div>
+  <div class="form-container">
     <input type="text" id="productTitle" placeholder="Product Title">
     <input type="text" id="productDescription" placeholder="Product Description">
     <input type="number" id="productPrice" placeholder="Product Price">
@@ -32,7 +104,7 @@
           const li = document.createElement('li');
           li.textContent = `${product.productTitle} - ${product.productDescription} - $${product.productPrice} - ${product.availableQuantity} units - ${product.productThumbnail}`;
           li.innerHTML += ` <button onclick="deleteProduct(${product.productId})">Delete</button>`;
-          li.innerHTML += ` <button onclick="updateProduct(${product.productId}, '${product.productTitle}', '${product.productDescription}', ${product.productPrice}, ${product.availableQuantity}, '${product.productThumbnail}')">Update</button>`;
+          li.innerHTML += ` <button class="update" onclick="updateProduct(${product.productId}, '${product.productTitle}', '${product.productDescription}', ${product.productPrice}, ${product.availableQuantity}, '${product.productThumbnail}')">Update</button>`;
           productList.appendChild(li);
         });
       } catch (error) {
