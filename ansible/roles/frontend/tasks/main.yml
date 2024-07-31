@@ -9,12 +9,13 @@
     state: present
   loop: "{{ dependencies }}"
 
-- name: Install pm2 using npm
+- name: Install npm packages globally
   npm:
-    name: 
+    name: "{{ item }}"
+    global: yes
+  loop:
     - pm2
     - http-server
-    global: yes
 
 - name: Check if repository directory exists
   stat:
