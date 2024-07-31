@@ -11,7 +11,9 @@
 
 - name: Install pm2 using npm
   npm:
-    name: pm2
+    name: 
+    - pm2
+    - http-server
     global: yes
 
 - name: Check if repository directory exists
