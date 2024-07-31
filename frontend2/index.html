@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Product CRUD App</title>
-  <script src="config.js"></script>
 </head>
 <body>
   <h1>Product CRUD App</h1>
@@ -19,7 +18,8 @@
   <ul id="productList"></ul>
 
   <script>
-    // The apiUrl variable is now available from config.js
+    // The API endpoint is hard-coded here
+    const apiUrl = 'http://backend-alb-dev-928641296.us-east-1.elb.amazonaws.com/products01';
 
     async function fetchProducts() {
       try {
