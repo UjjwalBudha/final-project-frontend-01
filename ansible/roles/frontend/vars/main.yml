@@ -11,5 +11,4 @@ nginx_conf_dest: "/etc/nginx/sites-available/default"
 dependencies:
   - nodejs
   - npm
-  - mysql-server
   - nginx
