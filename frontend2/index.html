@@ -129,9 +129,18 @@
         });
         if (!response.ok) throw new Error('Network response was not ok');
         fetchProducts();
+        clearForm();
       } catch (error) {
         console.error('Create product error:', error);
       }
+    }
+
+    function clearForm() {
+      document.getElementById('productTitle').value = '';
+      document.getElementById('productDescription').value = '';
+      document.getElementById('productPrice').value = '';
+      document.getElementById('availableQuantity').value = '';
+      document.getElementById('productThumbnail').value = '';
     }
 
     async function deleteProduct(id) {
